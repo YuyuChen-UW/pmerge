@@ -333,8 +333,8 @@ pmean<-function( p, r = 0, dependence = "A", subset = FALSE){
 #p=runif(10^4)
 #p=c(p,0,-1)
 
-#meanp(p, r=-2, dependence = "A",subset=TRUE)
-#meanp(p, r=-2, dependence = "I",subset=TRUE)
+#pmean(p, r=-2, dependence = "A",subset=TRUE)
+#pmean(p, r=-2, dependence = "I",subset=TRUE)
 
 
 ##############################################################################################
@@ -407,8 +407,8 @@ pharmonic <- function(p, method = "H1", subset = FALSE){
 
 #test
 #p=runif(10^2)
-#harmonicp(p, method = "H1")
-#harmonicp(p, method = "H2")
+#pharmonic(p, method = "H1")
+#pharmonic(p, method = "H2")
 
 ##############################################################################################
 ##############################################################################################
@@ -474,7 +474,7 @@ phommel <- function(p, method ="H", subset = FALSE){
   } else if (method == "S"){
     pp = min((K/c(1:K))*sort(p))
   } else if (method == "G"){
-    pp=uniroot(f=gh,lower=0.00001,upper=sum(1/c(1:K))*min((K/c(1:K))*sort(p),1),p=p)$root
+    pp=uniroot(f=gh,lower=10^(-10),upper=sum(1/c(1:K))*min((K/c(1:K))*sort(p),1),p=p)$root
   }
 
   return(min(pp,1))
@@ -484,9 +484,9 @@ phommel <- function(p, method ="H", subset = FALSE){
 #test
 #p=runif(10000)
 #st = proc.time()
-#hommelp(p, method = "H")
-#hommelp(p, method = "S")
-#hommelp(p, method = "G")
+#phommel(p, method = "H")
+#phommel(p, method = "S")
+#phommel(p, method = "G")
 #proc.time() - st
 
 ##############################################################################################
@@ -537,5 +537,5 @@ porder <- function(p, k, method="O1", subset = FALSE){
 
 #test
 #p=runif(10000)
-#orderp(p,k=5, method = "O1")
-#orderp(p,k=5, method = "O2")
+#porder(p,k=5, method = "O1")
+#porder(p,k=5, method = "O2")
