@@ -25,6 +25,8 @@ gmean<-function(p,r){
 }
 
 
+
+
 ##############################################################################################
 ##############################################################################################
 ########## Multipliers for the averaging method under arbitrary dependence####################
@@ -380,16 +382,24 @@ pharmonic <- function(p, method = "H1", subset = FALSE){
   }
 
 
-  m <- c()
-  n <- c(h(K)[2],rep(h(K)[3],K-1))
 
-  for (i in 1:K){
-    m[i] = gmean(sort(p)[1:i],-1)/gmean(n[1:i],-1)
-  }
 
   if (method == "H1"){
     pp = min( h(K)[1]*gmean(p,-1)  , 1 )
   } else if (method == "H2"){
+    n <- c(h(K)[2],rep(h(K)[3],K-1))
+
+    p1=sort(p)^(-1)
+    p2=n^(-1)
+    m = sapply(c(1:K),function(i){sum(p2[1:i])/sum(p1[1:i])})
+
+    #check
+    #sp=sort(p)
+    # m1=c()
+    # for (i in 1:K){
+    #   m1[i] = gmean(sp[1:i],-1)/gmean(n[1:i],-1)
+    #  }
+    # m-m1>=0.0001
     pp = min(m,ifelse(min(p) <=0, 0, 1))
   }
   return(pp)
