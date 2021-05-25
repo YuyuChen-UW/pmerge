@@ -14,7 +14,7 @@ Install this package from Github with
 devtools::install_github("YuyuChen-UW/pmerge")
 ```
 ## Introduction
-Merging p-values from different sources in multiple hypothesis testing has been a long-standing issue in many scientific investigation procedures. Many classical methods are designed for combining p-values with cerntain dependence structure (e.g., independence).
+Merging p-values from different sources in multiple hypothesis testing has been a long-standing issue in many scientific investigation procedures. Many classical methods are designed for combining p-values with cerntain dependence assumption (e.g., independence). However, the validity of the test (in the sense that the probability of make a Type-I error is below the significance level) cannot be guaranteed if the dependence assumption of p-values is not satisfied.
 
 ## Methods
 This package contains the following functions/methods to merge p-values:
