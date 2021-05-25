@@ -71,7 +71,7 @@ pCauchy(p, method="I",epi=0.1)
 ## References
 Chen Y, Liu P, Tan KS, and Wang R (2020). “Trade-off between validity and efficiency of merging p-values under arbitrary dependence.” arXiv preprint arXiv:2007.12366.
 
-Hommel G (1983). “Tests of the overall hypothesis for arbitrary dependence structures.” Biometri- cal Journal, 25(5), 423–430.
+Hommel G (1983). “Tests of the overall hypothesis for arbitrary dependence structures.” Biometrical Journal, 25(5), 423–430.
 
 Liu Y, and Xie J (2020). “Cauchy combination test: a powerful test with analytic p-value calculation under arbitrary dependency structures.” Journal of the American Statistical Association, 115(529), 393–402.
 
