@@ -4,8 +4,8 @@
 ### Table of Contents
 **[Installation](#installation)**<br>
 **[Introduction](#introduction)**<br>
-**[Methods to merge p-values](#Methods-to-merge-p-values)**<br>
-**[Usage and examples](#usage-and-examples)**<br>
+**[Methods](#methods)**<br>
+**[Usage](#usage)**<br>
 **[References](#references)**<br>
 ## Installation
 Install this package from Github with 
@@ -15,7 +15,7 @@ devtools::install_github("YuyuChen-UW/pmerge")
 ```
 ## Introduction
 
-## Methods to merge p-values
+## Methods
 This package contains the following functions/methods to merge p-values:
 1. The Generalized Mean Merging Function (`pmean`): 
    - The generalized mean methods for independent p-values (Chen et al. 2020).
@@ -33,7 +33,7 @@ This package contains the following functions/methods to merge p-values:
 5. The Cauchy Merging Function (`pCauchy`): 
    - The Cauchy combination methods for independent p-values (Liu and Xie 2020).
    - The Cauchy combination methods for arbitrarily dependent p-values (Chen et al. 2020).
-## Usage and examples
+## Usage
 - The functions `pmean`, `porder`, `pharmonic` and `pSimes` return the merged p-value (reject if the merged p-value is smaller than the significance level).
 - The function `pCauchy` returns the details of the hypothesis test including the test statistic and the threshold (reject if the test statistic is smaller than the threshold).
 - Examples:
