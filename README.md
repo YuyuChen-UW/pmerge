@@ -3,7 +3,7 @@
 This package contains several functions/methods to merge p-values that are either independent or arbitrarily dependent from multiple hypothesis testing.
 ## Table of Contents  
 [Installation](#Installation) 
-[Methods to merge p-values](#Methods to merge p-values) 
+[Methods to merge p-values](#Methodstomerge p-values) 
 [Usage and examples](#Usage and examples) 
 [References](#References) 
 ## Installation
