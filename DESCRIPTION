@@ -1,10 +1,10 @@
 Package: pmerge
 Type: Package
-Title: Combine Dependent P-values 
+Title: Combining dependent p-values 
 Version: 0.1.0
 Author: Yuyu Chen, Vladimir Vovk and Ruodu Wang
 Maintainer: Yuyu Chen <y937chen@uwaterloo.ca>
-Description: Set of functions for merging arbitrarily dependent p-values.
+Description: Functions to merge p-values that are independent or arbitrarily dependent.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

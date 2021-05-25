@@ -4,22 +4,22 @@
 \alias{pmean}
 \title{The Generalized Mean Merging Function}
 \usage{
-pmean(p, r = 0, dependence = "A", subset = FALSE)
+pmean(p, r = 0, dependence = "A", censor = TRUE)
 }
 \arguments{
 \item{p}{numeric vector of p-values.}
 
-\item{r}{the exponent of the generalized mean function in the set \eqn{[-10,\infty]\cup\{-\infty\}};}
+\item{r}{the exponent of the generalized mean function in the set \eqn{[-10,\infty]\cup\{-\infty\}}; by default, r = 0.}
 
-\item{dependence}{the dependence assumption of p-values, "A" or "I".}
+\item{dependence}{the dependence assumption of p-values, "A" or "I"; by default, dependence = "A".}
 
-\item{subset}{logical; if TRUE, p-values less than 0 or greater than 1 are removed; by default, subset=FALSE.}
+\item{censor}{logical; if TRUE, p-values are left-censored at 0 and right-censored at 1; by default, censor = TRUE.}
 }
 \value{
 The function returns the merged p-value.
 }
 \description{
-A function to merge dependent p-values or independent p-values via the generalized mean method.
+A function to merge arbitrarily dependent p-values or independent p-values via the generalized mean method.
 }
 \details{
 The generalized mean merging method combines p-values through the generalized mean function
@@ -30,25 +30,29 @@ including the limiting cases:
 \deqn{M_{\infty,K}(p_{1},\dots,p_{K})=\max\{p_{1},\dots,p_{K}\}.}
 
 Some special cases of the generalized mean merging method are:
-
- (1) The Bonferroni method [\eqn{r=-\infty}, method="A"];
-
-
- (2) The harmonic averaging method [\eqn{r=-1}, method="A"] \insertCite{VW}{pmerge};
-
- (3) The Fisher method [\eqn{r=0} and method="I"].
+\enumerate{
+\item
+The Bonferroni method for arbitrarily dependent p-values [\eqn{r=-\infty}, method="A"];
+\item
+The Fisher method for independent p-values [\eqn{r=0} and method="I"];
+\item
+The harmonic mean method for independent p-values [\eqn{r=-1}, method="I"] \insertCite{W}{pmerge};
+\item
+The harmonic mean method for arbitrarily dependent p-values [\eqn{r=-1}, method="A"] \insertCite{VW}{pmerge}.
+}
 
 "A" dependence [dependence="A"]: The method is valid for dependent p-values. The merged p-value is calculated by
 \deqn{F_{r,K}(p_{1},\dots,p_{K})=b_{r,K}M_{r,K}(p_{1},\dots,p_{K}),}
 where \eqn{M_{r,K}} is the generalized mean of the p-values with exponent \eqn{r}, and \eqn{b_{r,K}} is a constant; the constant \eqn{b_{r,K}} can be found in \insertCite{VW;textual}{pmerge} and \insertCite{VWW;textual}{pmerge}.
 
-"I" dependence [dependence="I"]: The method is valid for independent p-values. The merged p-value is approximated by the classic central limit theorem or the generalized central limit theorem; see \insertCite{C;textual}{pmerge} for more details. For exponent less than \eqn{0}, large number of p-values is needed to ensure the accuracy of approximation.
+"I" dependence [dependence="I"]: The method is valid for independent p-values. The merged p-value is approximated by the classic central limit theorem or the generalized central limit theorem; see \insertCite{C;textual}{pmerge} for more details.  Also see \strong{Note} for the use of this method.
 
-When the number of p-values is large, if \eqn{r\in[-2,1]} and method="A", \eqn{r} is rounded to the closest integer to prevent computational issues and convergence issues; see \insertCite{VW;textual}{pmerge} and \insertCite{VWW;textual}{pmerge}.
-
-Zero p-values are omitted if r is less than zero
+If \eqn{r\le 0}, any zero p-value will produce a zero merged p-value.
 
 A warning is given if any of the p-values is less than zero or greater than one.
+}
+\note{
+The method for independent p-values [dependence="I"]: The (generalized) central limit theorem has generally good approximations for merging independent p-values except for \eqn{r} close to \eqn{-0.5}. Therefore, we do not recommend to use \eqn{r\in(-1,0)} for independent p-values. For other choices of \eqn{r}, the number of p-values is suggested to be greater than \eqn{100}.
 }
 \references{
 \insertRef{C}{pmerge}
@@ -56,4 +60,6 @@ A warning is given if any of the p-values is less than zero or greater than one.
 \insertRef{VW}{pmerge}
 
 \insertRef{VWW}{pmerge}
+
+\insertRef{W}{pmerge}
 }

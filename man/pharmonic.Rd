@@ -4,29 +4,31 @@
 \alias{pharmonic}
 \title{The Harmonic Mean Merging Function}
 \usage{
-pharmonic(p, method = "H1", subset = FALSE)
+pharmonic(p, method = "H1", censor = TRUE)
 }
 \arguments{
 \item{p}{numeric vector of p-values.}
 
-\item{method}{method to merge p-values, "H1" or "H2"; by default, method="H1".}
+\item{method}{method to merge p-values, "H1", "H2" or "H3"; by default, method = "H1".}
 
-\item{subset}{logical; if TRUE, p-values less than 0 or greater than 1 are removed; by default, subset=FALSE.}
+\item{censor}{logical; if TRUE, p-values are left-censored at 0 and right-censored at 1; by default, censor = TRUE.}
 }
 \value{
 The function returns the merged p-value.
 }
 \description{
-A function to merge dependent p-values via the harmonic and the harmonic* merging methods.
+A function to merge p-values via the harmonic mean and the harmonic* merging methods.
 }
 \details{
-Both "H1" and "H2" methods are valid for dependent p-values and they require the number of p-values to be greater than 2.
+Both "H1" and "H2" methods are valid for dependent p-values and they require the number of p-values to be greater than 2. "H3" method is valid to merge independent p-values.
 
-"H1" method [method="H1"]: The harmonic mean method \insertCite{VW}{pmerge} calculates the merged p-value by
+"H1" method [method="H1"]: The harmonic mean method for merging arbitrarily dependent p-values \insertCite{VW}{pmerge} calculates the merged p-value by
 \deqn{F_{-1,K}(p_{1},\dots,p_{K})=b_{-1,K}M_{-1,K}(p_{1},\dots,p_{K}),}
 where \eqn{M_{-1,K}(p_{1},\dots,p_{K})=\left(\frac{1}{K}\sum_{k=1}^{K}p_{k}^{-1}\right)^{-1}} is the harmonic mean of the p-values and \eqn{b_{-1,K}} is a constant; see \insertCite{VW;textual}{pmerge} for the calculation of \eqn{b_{-1,K}}.
 
-"H2" method [method="H2"]: The harmonic\eqn{^{*}} merging method \insertCite{VWW}{pmerge}, which is a modification of the harmonic averaging method \insertCite{VW}{pmerge}, returns a smaller merged p-value than the harmonic averaging method; see \insertCite{VWW;textual}{pmerge} for more details.
+"H2" method [method="H2"]: The harmonic\eqn{^{*}} merging method \insertCite{VWW}{pmerge}, which is an improvement of the harmonic mean method \insertCite{VW}{pmerge}, returns a smaller merged p-value than the harmonic mean method; see \insertCite{VWW;textual}{pmerge} for more details.
+
+"H3" method [method="H3"]: See \insertCite{W;textual}{pmerge} about the harmonic mean method for merging independent p-values. The result is approximated by generalized central limit theorem; see \code{\link{pmean}} for details.
 
 A warning is given if any of the p-values is less than zero or greater than one.
 }
@@ -34,4 +36,6 @@ A warning is given if any of the p-values is less than zero or greater than one.
 \insertRef{VW}{pmerge}
 
 \insertRef{VWW}{pmerge}
+
+\insertRef{W}{pmerge}
 }

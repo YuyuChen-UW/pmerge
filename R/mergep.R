@@ -1,5 +1,9 @@
 #install.packages("stabledist")
 library(stabledist)
+
+
+
+
 ##############################################################################################
 ##############################################################################################
 ########## Generalized mean function##########################################################
@@ -83,16 +87,16 @@ h<-function(K){
 #  x=h(i)[1]
 #  print(i)
 #  print(x/log(i))}
-#h(20000000)[1]/log(20000000)
+#h(2000000000)[1]/log(2000000000)
 
 #multiplier for r<1/(K-1) & r!= 0 or -1 & K>2 (r is restricted to r<-1)
 #equation to solve in the function n(r,K) ( replace c=1/(y+K) )
 LR<-function(y,r,K){
   val = (K-1)*((y+K)/(y+1))^(-r)+(y+K)^(-r)-K*(((y+K)/(y+1))^(-r-1)-(y+K)^(-r-1))/((r+1)*(y/(y+K)))
 }
-# for K \geq 3000000, asymptotic result is used
-n<-function(r,K){
-  if (K <=3000000){
+
+# exact multiplier
+n0<-function(r,K){
     if (r<0){
 
       if (r > (-5) & r <=(-2)){
@@ -102,7 +106,8 @@ n<-function(r,K){
       } else if (r>= (-2) & r <= (-1.5)) {
         up = 10^(K/(10000*r*r)) + K^(2)
       } else if (r>= (-1.5) & r < 0) {
-        up = 10^(K/(10000*r*r)) + K^(10)
+        up = 10^(K/(10000000*r*r)) + K^(10)
+        #up = 10^(K/(10000*r*r)) + K^(10)
       }
 
       low = 1e-7
@@ -123,18 +128,32 @@ n<-function(r,K){
         eps = up-low
       }
       y = mid
-    }else {
+    } else {
       y=uniroot(LR,lower=10,upper=10^11,K=K,r=r)[1]
       y=as.numeric(y)
     }
+
     c=1/(y+K)
     d = 1-(K-1)*c
     a = 1/gmean(c(c,rep(d,times=(K-1))),r)
-  } else if (K >3000000){
-    a =  (r/(r+1))*K^(1+(1/r))
+
+
+
+  return(a)
+}
+# asymptotic result is used
+n<-function(r,K){
+  if (r > -1.5 & r < -1 & K >= 6000000){
+    a = (r/(r+1))*K^(1+(1/r))
+  } else if (r > -1 & r < 1 & K >= 6000000){
+    a = (r+1)^(1/r)
+  } else if (r <= -1.5 & K>= 1000000 ){
+    a = (r/(r+1))*K^(1+(1/r))
+  } else if (r >=1 & K>= 1000000){
+    a = (r+1)^(1/r)
+  } else {
+    a = n0(r,K)
   }
-
-
   return(a)
 }
 
@@ -143,17 +162,8 @@ n<-function(r,K){
 #  x=n(-10,i)
 #  print(i)
 #  print(x)}
-#n(-5,20000000)
+#n(-0.1,100000000)
 
-#test: Check the asymptotic results for r<-1
-#K=1000000
-#R<-seq(-10,-1.1,by=0.1) #r values
-#result<-c()
-#for (i in 1: length(R) ){
-#result[i]<-n(R[i],K)/(  (R[i]/(R[i]+1))*K^(1+(1/R[i]))  )
-#}
-#result[abs(result-1) > 0.0001]
-#result
 
 #the multiplier a_{r,K} for arbitrary dependence
 amean<-function(r,K){
@@ -169,26 +179,44 @@ amean<-function(r,K){
     a <- g(K)
   } else if (r==-1){
     a <- h(K)[1]
-  } else {
+  } else if (r < (1/(K-1)) & r != 0 & r != -1 & r != -Inf){
     a <-n(r,K)
   }
   return(a)
 }
 
 
-#par(mfrow=c(2,3))
+#par(mfrow=c(1,3))
 
 #R<-seq(-10,10,by=0.1)
-#K=10000
+#K=5000000# for r from -1.5 to 1
+#K=900000 # other wise
 #A=c()
+#B=c()
 #for (i in 1:length(R)){
 #  A[i]=amean(R[i],K)
 #  print(i)
 #}
+#R1<-seq(-10,-1.1,by=0.1)
+#for (i in 1:length(R1)){
+#  B[i]<-(R1[i]/(R1[i]+1))*K^(1+(1/R1[i]))
+#}
+#B[length(R1)+1]=log(K)
+#R2<-seq(-0.9,-0.1,by=0.1)
+#for (i in 1:length(R2)){
+# B[length(R1)+1+i]<-(R2[i]+1)^(1/R2[i])
+#}
+#B[length(R1)+1+length(R2)+1]=exp(1)
 
-#plot(R,A,main="K=10000",ylab=expression(a[r]),xlab="r")
+#R3<- seq(0.1,10,by=0.1)
+#for (i in 1:length(R3)){
+#  B[length(R1)+2+length(R2)+i]<-(R3[i]+1)^(1/R3[i])
+#}
 
-#amean(-0.2,100000)
+#plot(R,A,main="K=20000",ylab=expression(a[r]/asymptotic~result),xlab="r",type="l")
+#lines(R,B, col="red",type="l")
+
+
 
 ##############################################################################################
 ##############################################################################################
@@ -205,11 +233,11 @@ amean<-function(r,K){
 
 
 #' @title The Generalized Mean Merging Function
-#' @description A function to merge dependent p-values or independent p-values via the generalized mean method.
+#' @description A function to merge arbitrarily dependent p-values or independent p-values via the generalized mean method.
 #' @param p numeric vector of p-values.
-#' @param r the exponent of the generalized mean function in the set \eqn{[-10,\infty]\cup\{-\infty\}};
-#' @param dependence the dependence assumption of p-values, "A" or "I".
-#' @param subset logical; if TRUE, p-values less than 0 or greater than 1 are removed; by default, subset=FALSE.
+#' @param r the exponent of the generalized mean function in the set \eqn{[-10,\infty]\cup\{-\infty\}}; by default, r = 0.
+#' @param dependence the dependence assumption of p-values, "A" or "I"; by default, dependence = "A".
+#' @param censor logical; if TRUE, p-values are left-censored at 0 and right-censored at 1; by default, censor = TRUE.
 #' @details  The generalized mean merging method combines p-values through the generalized mean function
 #' \deqn{M_{r,K}(p_{1},\dots,p_{K})=\left(\frac{1}{K}\sum_{k=1}^{K}p_{k}^{r}\right)^{\frac{1}{r}},}
 #' including the limiting cases:
@@ -217,37 +245,44 @@ amean<-function(r,K){
 #' \deqn{M_{0,K}(p_{1},\dots,p_{K})=\left(\prod_{k=1}^{K}p_{k}\right)^{\frac{1}{K}};}
 #' \deqn{M_{\infty,K}(p_{1},\dots,p_{K})=\max\{p_{1},\dots,p_{K}\}.}
 #' @details Some special cases of the generalized mean merging method are:
-#'
-#'  (1) The Bonferroni method [\eqn{r=-\infty}, method="A"];
-#'
-#'
-#'  (2) The harmonic averaging method [\eqn{r=-1}, method="A"] \insertCite{VW}{pmerge};
-#'
-#'  (3) The Fisher method [\eqn{r=0} and method="I"].
-
+#' \enumerate{
+#' \item
+#' The Bonferroni method for arbitrarily dependent p-values [\eqn{r=-\infty}, method="A"];
+#' \item
+#' The Fisher method for independent p-values [\eqn{r=0} and method="I"];
+#' \item
+#' The harmonic mean method for independent p-values [\eqn{r=-1}, method="I"] \insertCite{W}{pmerge};
+#' \item
+#' The harmonic mean method for arbitrarily dependent p-values [\eqn{r=-1}, method="A"] \insertCite{VW}{pmerge}.
+#' }
 #' @details  "A" dependence [dependence="A"]: The method is valid for dependent p-values. The merged p-value is calculated by
 #' \deqn{F_{r,K}(p_{1},\dots,p_{K})=b_{r,K}M_{r,K}(p_{1},\dots,p_{K}),}
 #' where \eqn{M_{r,K}} is the generalized mean of the p-values with exponent \eqn{r}, and \eqn{b_{r,K}} is a constant; the constant \eqn{b_{r,K}} can be found in \insertCite{VW;textual}{pmerge} and \insertCite{VWW;textual}{pmerge}.
-#' @details  "I" dependence [dependence="I"]: The method is valid for independent p-values. The merged p-value is approximated by the classic central limit theorem or the generalized central limit theorem; see \insertCite{C;textual}{pmerge} for more details. For exponent less than \eqn{0}, large number of p-values is needed to ensure the accuracy of approximation.
-#' @details  When the number of p-values is large, if \eqn{r\in[-2,1]} and method="A", \eqn{r} is rounded to the closest integer to prevent computational issues and convergence issues; see \insertCite{VW;textual}{pmerge} and \insertCite{VWW;textual}{pmerge}.
-#' @details  Zero p-values are omitted if r is less than zero
+#' @details  "I" dependence [dependence="I"]: The method is valid for independent p-values. The merged p-value is approximated by the classic central limit theorem or the generalized central limit theorem; see \insertCite{C;textual}{pmerge} for more details.  Also see \strong{Note} for the use of this method.
+#' @details  If \eqn{r\le 0}, any zero p-value will produce a zero merged p-value.
 #' @details  A warning is given if any of the p-values is less than zero or greater than one.
 #' @import stabledist
 #' @import stats
 #' @importFrom Rdpack reprompt
 #' @return The function returns the merged p-value.
+#' @note
+#' The method for independent p-values [dependence="I"]: The (generalized) central limit theorem has generally good approximations for merging independent p-values except for \eqn{r} close to \eqn{-0.5}. Therefore, we do not recommend to use \eqn{r\in(-1,0)} for independent p-values. For other choices of \eqn{r}, the number of p-values is suggested to be greater than \eqn{100}.
 #' @references
 #' \insertRef{C}{pmerge}
 #'
 #' \insertRef{VW}{pmerge}
 #'
 #' \insertRef{VWW}{pmerge}
+#'
+#' \insertRef{W}{pmerge}
 #' @export
-pmean<-function( p, r = 0, dependence = "A", subset = FALSE){
+
+pmean<-function( p, r = 0, dependence = "A", censor = TRUE){
   K=length(p)
 
-  if (subset == TRUE){
-    p = p[ p>=0 & p<=1 ]
+  if (censor == TRUE){
+    p[p<0]=0
+    p[p>1]=1
   } else {
     p = p}
 
@@ -261,19 +296,19 @@ pmean<-function( p, r = 0, dependence = "A", subset = FALSE){
   #  }
 
 
-  if (r > (-2) & r< (1) & dependence == "A" & K >= 10000){
-    warning("r is rounded to the closest integer if r is between -2 and 1 and dependence = 'A' for large number of p-values")
-    r=round(r)
-  }
+  #if (r > (-2) & r< (1) & dependence == "A" & K >= 10000){
+  #  warning("r is rounded to the closest integer if r is between -2 and 1 and dependence = 'A' for large number of p-values")
+  #  r=round(r)
+  #}
 
   if (r < -10 & r > (- Inf)){
     stop("r should be greater than -10 or equal to -Inf")
   }
 
-  if (r < 0 & min(p) <= 0){
-    warning("Zero p-values are omitted if r is less than or equal to zero")
-    p = p[p>0]
-  }
+  #if (r < 0 & min(p) <= 0){
+  #  warning("Zero p-values are omitted if r is less than or equal to zero")
+  #  p = p[p != 0]
+  #}
 
   if (dependence == "A") {
     if (K == 2 & r< 1) {
@@ -291,7 +326,7 @@ pmean<-function( p, r = 0, dependence = "A", subset = FALSE){
     } else if (r > 0 & r < Inf){
       mu = (r+1)^(-1)
       sig = (r^(2))*((1+2*r)^(-1))*((1+r)^(-2))
-      pp = pnorm((gmean(p,r)^(r)-mu)*(sqrt(sig/K)))
+      pp = pnorm((gmean(p,r)^(r)-mu)*(sqrt(K/sig)))
     } else if (r > -Inf & r<0){
 
       alpha = (-1/r)
@@ -333,8 +368,8 @@ pmean<-function( p, r = 0, dependence = "A", subset = FALSE){
 #p=runif(10^4)
 #p=c(p,0,-1)
 
-#pmean(p, r=-2, dependence = "A",subset=TRUE)
-#pmean(p, r=-2, dependence = "I",subset=TRUE)
+#pmean(p, r=-2, dependence = "A",censor=TRUE)
+#pmean(p, r=-2, dependence = "I",censor=TRUE)
 
 
 ##############################################################################################
@@ -347,15 +382,16 @@ pmean<-function( p, r = 0, dependence = "A", subset = FALSE){
 
 
 #' @title The Harmonic Mean Merging Function
-#' @description A function to merge dependent p-values via the harmonic and the harmonic* merging methods.
+#' @description A function to merge p-values via the harmonic mean and the harmonic* merging methods.
 #' @param p numeric vector of p-values.
-#' @param method method to merge p-values, "H1" or "H2"; by default, method="H1".
-#' @param subset logical; if TRUE, p-values less than 0 or greater than 1 are removed; by default, subset=FALSE.
-#' @details  Both "H1" and "H2" methods are valid for dependent p-values and they require the number of p-values to be greater than 2.
-#' @details "H1" method [method="H1"]: The harmonic mean method \insertCite{VW}{pmerge} calculates the merged p-value by
+#' @param method method to merge p-values, "H1", "H2" or "H3"; by default, method = "H1".
+#' @param censor logical; if TRUE, p-values are left-censored at 0 and right-censored at 1; by default, censor = TRUE.
+#' @details  Both "H1" and "H2" methods are valid for dependent p-values and they require the number of p-values to be greater than 2. "H3" method is valid to merge independent p-values.
+#' @details "H1" method [method="H1"]: The harmonic mean method for merging arbitrarily dependent p-values \insertCite{VW}{pmerge} calculates the merged p-value by
 #' \deqn{F_{-1,K}(p_{1},\dots,p_{K})=b_{-1,K}M_{-1,K}(p_{1},\dots,p_{K}),}
 #' where \eqn{M_{-1,K}(p_{1},\dots,p_{K})=\left(\frac{1}{K}\sum_{k=1}^{K}p_{k}^{-1}\right)^{-1}} is the harmonic mean of the p-values and \eqn{b_{-1,K}} is a constant; see \insertCite{VW;textual}{pmerge} for the calculation of \eqn{b_{-1,K}}.
-#' @details "H2" method [method="H2"]: The harmonic\eqn{^{*}} merging method \insertCite{VWW}{pmerge}, which is a modification of the harmonic averaging method \insertCite{VW}{pmerge}, returns a smaller merged p-value than the harmonic averaging method; see \insertCite{VWW;textual}{pmerge} for more details.
+#' @details "H2" method [method="H2"]: The harmonic\eqn{^{*}} merging method \insertCite{VWW}{pmerge}, which is an improvement of the harmonic mean method \insertCite{VW}{pmerge}, returns a smaller merged p-value than the harmonic mean method; see \insertCite{VWW;textual}{pmerge} for more details.
+#' @details "H3" method [method="H3"]: See \insertCite{W;textual}{pmerge} about the harmonic mean method for merging independent p-values. The result is approximated by generalized central limit theorem; see \code{\link{pmean}} for details.
 #' @details  A warning is given if any of the p-values is less than zero or greater than one.
 #' @importFrom Rdpack reprompt
 #' @return The function returns the merged p-value.
@@ -363,8 +399,10 @@ pmean<-function( p, r = 0, dependence = "A", subset = FALSE){
 #' \insertRef{VW}{pmerge}
 #'
 #' \insertRef{VWW}{pmerge}
+#'
+#' \insertRef{W}{pmerge}
 #' @export
-pharmonic <- function(p, method = "H1", subset = FALSE){
+pharmonic <- function(p, method = "H1", censor = TRUE){
 
   K = length(p)
 
@@ -372,8 +410,9 @@ pharmonic <- function(p, method = "H1", subset = FALSE){
     stop("The number of p-values should be greater than 2")
   }
 
-  if (subset == TRUE){
-    p = p[ p>=0 & p<=1 ]
+  if (censor == TRUE){
+    p[p<0]=0
+    p[p>1]=1
   } else {
     p = p}
 
@@ -401,6 +440,8 @@ pharmonic <- function(p, method = "H1", subset = FALSE){
     #  }
     # m-m1>=0.0001
     pp = min(m,ifelse(min(p) <=0, 0, 1))
+  } else if (method == "H3"){
+    pp = pmean(p=p, r=-1, dependence = "I")
   }
   return(pp)
 }
@@ -425,25 +466,26 @@ gh <- function(epi,p){
   return(mean(val)-1)
 }
 
-#' @title The Hommel Merging Function.
-#' @description A function to merge dependent p-values via the Hommel method and the grid harmonic merging method,  or independent p-values via the Simes method.
+#' @title The Simes Merging Function.
+#' @description A function to merge arbitrarily dependent p-values via the Hommel method and the grid harmonic merging method,  or independent p-values via the Simes method.
 #' @param p numeric vector of p-values.
-#' @param method method to merge p-values, "H", "S" or "G"; by default, method="H".
-#' @param subset logical; if TRUE, p-values less than 0 or greater than 1 are removed; by default, subset=FALSE.
-#' @details  Both "H" and "G" methods are valid for dependent p-values. The "S" method is valid for independent p-values.
+#' @param method method to merge p-values, "H", "S" or "G"; by default, method = "H".
+#' @param censor logical; if TRUE, p-values are left-censored at 0 and right-censored at 1; by default, censor = TRUE.
+#' @param lower the lower bound for \code{\link{uniroot}} function; by default lower = 1e-10.
+#' @details  Both "H" and "G" methods are valid for arbitrarily dependent p-values. The "S" method is valid for independent p-values.
 #' @details "H" method [method="H"]: The Hommel method \insertCite{H}{pmerge} calculates the merged p-value by
-#' \deqn{H_{K}(p_{1},\dots,p_{K})=l_{K}\wedge_{k=1}^{K}G_{k,K}(p_{1},\dots,p_{k}),}
-#' where \eqn{p_{(k)}} is the \eqn{k}-th order statistic of the p-values, \eqn{l_{K}=\sum_{k=1}^{K}k^{-1}} and
+#' \deqn{H_{K}(p_{1},\dots,p_{K})=\ell_{K}\wedge_{k=1}^{K}G_{k,K}(p_{1},\dots,p_{k}),}
+#' where \eqn{p_{(k)}} is the \eqn{k}-th order statistic of the p-values, \eqn{\ell_{K}=\sum_{k=1}^{K}k^{-1}} and
 #' \deqn{G_{k,K}(p_{1},\dots,p_{K})=\frac{K}{k}p_{(k)}\wedge 1.}
 #' @details "S" method [method="S"]: The Simes method \insertCite{S}{pmerge} calculates the merged p-value by
-#' \deqn{S_{K}(p_{1},\dots,p_{K})=\frac{1}{l_{K}}H_{K}(p_{1},\dots,p_{K}),}
+#' \deqn{S_{K}(p_{1},\dots,p_{K})=\frac{1}{\ell_{K}}H_{K}(p_{1},\dots,p_{K}),}
 #' where \eqn{H_{K}} is given in the details of "H" method.
-#' @details "G" method [method="G"]: The grid harmonic method in \insertCite{VWW;textual}{pmerge}, which is a modification of the Hommel method, produces a smaller merged p-value than the Hommel method; see \insertCite{VWW;textual}{pmerge} for more details.
+#' @details "G" method [method="G"]: The grid harmonic method in \insertCite{VWW;textual}{pmerge}, which is an improvement of the Hommel method, produces a smaller merged p-value than the Hommel method; see \insertCite{VWW;textual}{pmerge} for more details.
 #' @details  A warning is given if any of the p-values is less than zero or greater than one.
 #' @return The function returns the merged p-value.
 #' @importFrom Rdpack reprompt
 #' @note
-#' Although the Simes method is developed for independent p-values, it is also valid for a wide range of dependency on p-values, e.g., MTP\eqn{_{2}} condition \insertCite{Sarkar}{pmerge}. However, it is not always valid for dependent p-values.
+#' Although the Simes method is developed for independent p-values, it is also valid for a wide range of dependency on p-values, e.g., MTP\eqn{_{2}} condition \insertCite{Sarkar}{pmerge}. However, it is not always valid for arbitrarily dependent p-values.
 #' @references
 #' \insertRef{H}{pmerge}
 #'
@@ -453,15 +495,16 @@ gh <- function(epi,p){
 #'
 #' \insertRef{VWW}{pmerge}
 #' @export
-phommel <- function(p, method ="H", subset = FALSE){
+pSimes <- function(p, method ="H", censor = TRUE, lower=10^(-10)){
   K = length(p)
 
   if (method == "G" & K > 1000000){
     warning("For large K: the calculation time for the grid harmonic method increases linearly as the number of p-values increases")
   }
 
-  if (subset == TRUE){
-    p = p[ p>=0 & p<=1 ]
+  if (censor == TRUE){
+    p[p<0]=0
+    p[p>1]=1
   } else {
     p = p}
 
@@ -474,7 +517,7 @@ phommel <- function(p, method ="H", subset = FALSE){
   } else if (method == "S"){
     pp = min((K/c(1:K))*sort(p))
   } else if (method == "G"){
-    pp=uniroot(f=gh,lower=10^(-10),upper=sum(1/c(1:K))*min((K/c(1:K))*sort(p),1),p=p)$root
+    pp=uniroot(f=gh,lower=lower,upper=sum(1/c(1:K))*min((K/c(1:K))*sort(p),1),p=p)$root
   }
 
   return(min(pp,1))
@@ -494,17 +537,15 @@ phommel <- function(p, method ="H", subset = FALSE){
 ##########Order statistics method#############################################################
 
 #' @title The Order Statistics Merging Function
-#' @description A function to merge dependent p-values via order statistics merging method.
+#' @description A function to merge arbitrarily dependent p-values via order statistics merging method.
 #' @param p numeric vector of p-values.
 #' @param k the \eqn{k}-th order statistic, takes value \eqn{1,2,\dots,K} where \eqn{K} is the number of p-values.
-#' @param method method used to merge p-values, "O1" or "O2"; by default, method="O1".
-#' @param subset logical; if TRUE, p-values less than 0 or greater than 1 are removed; by default, subset=FALSE.
+#' @param censor logical; if TRUE, p-values are left-censored at 0 and right-censored at 1; by default, censor = TRUE.
 #' @details The order statistics merging method combines p-values using order statistics and it includes the famous Bonferroni method [k=1, method="O1"].
-#' @details  Both "O1" and "O2" methods are valid for dependent p-values.
-#' @details "O1" method [method="O1"]: The order statistics class of merging methods proposed by \insertCite{R;textual}{pmerge} calculates the merged p-value by
+#' @details It is first proposed by \insertCite{R;textual}{pmerge} to merge arbitrarily dependent p-values by
 #' \deqn{G_{k,K}(p_{1},\dots,p_{K})=\frac{K}{k}p_{(k)}\wedge 1,}
 #' where \eqn{p_{(k)}} is the \eqn{k}-th order statistic of the p-values.
-#' @details "O2" method [method="O2"]: It is a modification \insertCite{VWW}{pmerge} of the order statistics merging method \insertCite{R}{pmerge} by a zero-one adjustment. It returns a smaller merged p-value than the order statistics merging method \insertCite{R}{pmerge}. The merged p-value is calculated by
+#' @details This function uses an improved version \insertCite{VWW}{pmerge} of the above order statistics merging method. The improved method returns a smaller merged p-value than the order statistics merging method \insertCite{R}{pmerge}. The merged p-value is calculated by
 #' \deqn{G^{*}_{k,K}(p_{1},\dots,p_{K})=G_{k,K}(p_{1},\dots,p_{K})\wedge 1_{\{p_{(1)}>0\}}.}
 #' where \eqn{p_{(1)}} is the first order statistic of the p-values.
 #' @details  A warning is given if any of the p-values is less than zero or greater than one.
@@ -515,10 +556,78 @@ phommel <- function(p, method ="H", subset = FALSE){
 #'
 #' \insertRef{VWW}{pmerge}
 #' @export
-porder <- function(p, k, method="O1", subset = FALSE){
+porder <- function(p, k, censor = TRUE){
   K = length(p)
 
-  if (subset == TRUE){
+  if (censor == TRUE){
+    p[p<0]=0
+    p[p>1]=1
+  } else {
+    p = p}
+
+  if (min(p) < 0 | max(p) > 1){
+    warning("At least one of the input p-values are less than zero or greater than one")
+  }
+
+    pp = min(min((K/k)*sort(p)[k],1),ifelse(min(p)>0,1,0))
+
+  return(pp)
+}
+
+#test
+#p=runif(10000)
+#porder(p,k=5, method = "O1")
+#porder(p,k=5, method = "O2")
+
+##############################################################################################
+##############################################################################################
+##########Cauchy combination method#############################################################
+
+# function inside the integral on LHS
+f=function(t, epi, K){
+  (K-1)*tan(pi*(1-epi+(K-1)*t-1/2))+tan(pi*(1-t-1/2))
+}
+
+#LHS-RHS
+L_R=function(x ,epi, K){
+  integrate(f, lower=x, upper=(epi/K),epi,K)$value-(epi/K-x)*f(x,epi,K)
+}
+
+# a_{F}
+
+a_c=function(x, epi, K){
+  H = (K-1)* tan(pi*((1-epi+(K-1)*x)-0.5)) + tan(pi*((1-x)-0.5))
+  v = (1/pi)*atan(-(H)/K)+0.5
+  return(v)
+}
+
+
+#' @title The Cauchy Merging Function
+#' @description A function to merge arbitrarily dependent or independent p-values via the Cauchy combination method.
+#' @param p numeric vector of p-values.
+#' @param method method used to merge p-values, "A" or "I"; by default, method = "A".
+#' @param epi The significance level of the hypothesis test; takes value in (0,0.5); by default epi = 0.1.
+#' @param censor logical; if TRUE, p-values are left-censored at 0 and right-censored at 1; by default, censor = TRUE.
+#' @details  The Cauchy combination method \insertCite{L}{pmerge} calculates the test statistic via
+#' \deqn{ M_{ \mathcal C,K}(p_{1},\dots,p_{K}):=\mathcal C\left(\frac{1}{K}\sum_{k=1}^{K}\mathcal C^{-1}\left(p_{k}\right)\right).}
+#' Here \eqn{\mathcal C} is the cumulative distribution function of the standard Cauchy random variable and \eqn{\mathcal C^{-1}} is the inverse of \eqn{\mathcal C}.
+#' The hypothesis test is rejected if the test statistic is less than or equal to a threshold. The threshold is different for different methods [dependence="I" or "A"].
+#' @details  "I" dependence [dependence="I"]: The threshold of the Cauchy combination method for independent p-values is (asymptotically) equivalent to the significance level; see \insertCite{L;textual}{pmerge}.
+#' @details  "A" dependence [dependence="A"]: See \insertCite{C}{pmerge} for details about the threshold of the Cauchy combination method for arbitrarily dependent p-values.
+#' @return The function returns the details of the hypothesis test including the method used, test result (i.e., reject or fail to reject), the significance level, the test statistic and the threshold.
+#' @importFrom Rdpack reprompt
+#' @references
+#' \insertRef{C}{pmerge}
+#'
+#' \insertRef{L}{pmerge}
+#' @export
+
+#The Cauchy combination method
+pCauchy <- function(p, method="A",epi=0.1, censor = TRUE){
+
+  K = length(p)
+
+  if (censor == TRUE){
     p = p[ p>=0 & p<=1 ]
   } else {
     p = p}
@@ -527,15 +636,53 @@ porder <- function(p, k, method="O1", subset = FALSE){
     warning("At least one of the input p-values are less than zero or greater than one")
   }
 
-  if  (method == "O1"){
-    pp = min((K/k)*sort(p)[k],1)
-  } else if (method== "O2"){
-    pp = min(min((K/k)*sort(p)[k],1),ifelse(min(p)>0,1,0))
+  if (epi < 0 | epi > 0.5){
+    warning("The significance level epi should be between 0 and 0.5")
   }
-  return(pp)
+
+  val = tan(pi*(p-1/2))
+  test.stat = atan(mean(val) )/pi+1/2
+
+  if (method == "I"){
+    threshold = epi
+
+  } else if (method == "A"){
+    #solve  x
+    up = (epi/K)-1e-40
+    low = 1e-40
+    if (low>=up){
+      stop("Bisection root searching: The lower bound is larger than the upper bound")
+    }
+    mid = (up+low)/2
+    valmid = L_R(mid,epi = epi,K = K)
+    while(abs(valmid)> 1e-4){
+      if(valmid>0){
+        up = mid
+      }else{
+        low = mid
+      }
+      mid = (up+low)/2
+      valmid = L_R(mid,epi = epi,K = K)
+      #print(valmid)
+    }
+    x = mid
+    threshold = a_c(x = x,epi = epi,K = K)
+  }
+
+  #uniroot(f=L_R, lower = 1e-15, upper =  (epi/K)-1e-15, epi=0.1, K=K)
+
+  significance.level = epi
+  decision = ifelse(test.stat<=threshold,"Reject","Fail to reject")
+  Results = c(method,decision,significance.level,test.stat,threshold)
+  names(Results) = c("Method","Decision","Significance.level","Test.stat","Threshold")
+
+  return( as.data.frame(Results))
 }
 
-#test
-#p=runif(10000)
-#porder(p,k=5, method = "O1")
-#porder(p,k=5, method = "O2")
+
+#P<-runif(1000000,0,0.0001)
+#pCauchy(P,method="A",epi=0.01)
+
+
+
+
