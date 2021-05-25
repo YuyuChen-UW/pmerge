@@ -8,7 +8,6 @@ Install this package from Github with
 #install.packages("devtools")
 devtools::install_github("YuyuChen-UW/pmerge")
 library("pmerge")
-
 ```
 ## Methods to merge p-values
 This package contains the following functions/methods to merge p-values:
