@@ -49,7 +49,7 @@ alpha = 0.1
 h = c()
 
 for (i in 1 : N){
-  h[i] = pmean(p = P[,i], dependence = "I")
+  h[i] = pmean(p = P[,i], dependence = "I") # "I" for independent p-values, "A" for arbitrarily dependent p-values
 }
 
 prob = length(h[h<alpha])/length(h)
