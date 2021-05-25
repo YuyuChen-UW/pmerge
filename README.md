@@ -16,13 +16,18 @@ devtools::install_github("YuyuChen-UW/pmerge")
 ## Introduction
 Merging p-values from different sources in multiple hypothesis testing has been a long-standing issue in many scientific investigation procedures. Many classical methods are designed for combining p-values with cerntain dependence assumption (e.g., independence). However, the validity of the test (in the sense that the probability of making a Type-I error is below the significance level) cannot be guaranteed if the dependence assumption of p-values is not satisfied. 
 
-Let's take the classic Fisher's method for independent p-values as an example. 30 p-values are obtained from one-sided normal tests whose test statistcs jointly follow a equicorrelated Gaussian distribution. Below is a table of the probabilities of making a Type-I error for different correlation coefficient. It is clear that if the dependence assumption (independence) is not satisfied, the Fisher method becomes invalid.
+Let's take the classic Fisher's method for independent p-values as an example. 30 p-values are obtained from one-sided normal tests whose test statistcs jointly follow a equicorrelated Gaussian distribution. Below is a table of the probabilities of making a Type-I error with significance level 0.1 for different correlation coefficient. It is clear that if the dependence assumption (independence) is not satisfied, the Fisher method becomes invalid (in this example).
 Correlation Coefficient | 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 
 --- | --- | --- | --- |--- |--- |--- 
 Probability of making a Type-one error | 0.09933 | 0.22107 | 0.25782 | 0.27476 | 0.28397 | 0.28893
 
+Therefore, dependence structure plays an important role on the validity of multiple hypothesis test. However, the inference of verification of the dependence assumption is extremely difficult based on limited data of p-values. To solve this issue, methods for arbitrarily dependent p-values are developed. Those methods are always valid regardless of the dependence structure of the p-values. Following the setup of the previous example, we present below the probabilities of making a Type-I error by using the Fisher's method for arbitrarily dependent p-values.
+Correlation Coefficient | 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 
+--- | --- | --- | --- |--- |--- |--- 
+Probability of making a Type-one error | 0.00000 | 0.00000 | 0.00026 | 0.00174 | 0.00511 | 0.00951
 
-The code for the above example:
+
+The code for the above examples:
 ```r
 #install.packages("MASS")
 library(MASS,pmerge)
