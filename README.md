@@ -36,7 +36,7 @@ library("pmerge")
 P <- runif(1000)
 
 # The generalized mean method for arbitrarily dependent p-values
-pmean(p,-2,dependence="A", censor = TRUE)
+pmean(p,-2,dependence="A")
 # The generalized mean method for independent p-values
 pmean(p,-2,dependence="I")
 
@@ -57,9 +57,9 @@ pharmonic(p,method="H2")
 # The harmonic mean method for independent p-values
 pharmonic(p,method="H3")
 
-# The Cauchy combination method for arbitrarily dependent p-values
+# The Cauchy combination method for arbitrarily dependent p-values with significance level 0.1
 pCauchy(p, method="A",epi=0.1)
-# The Cauchy combination method for independent p-values
+# The Cauchy combination method for independent p-values with significance level 0.1
 pCauchy(p, method="I",epi=0.1)
 ```
 
