@@ -8,7 +8,7 @@ This package contains several functions/methods to merge p-values that are eithe
 **[References](#references)**<br>
 ## Installation
 Install this package from Github with 
-```
+```r
 #install.packages("devtools")
 devtools::install_github("YuyuChen-UW/pmerge")
 ```
