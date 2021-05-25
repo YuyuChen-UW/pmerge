@@ -15,8 +15,9 @@ devtools::install_github("YuyuChen-UW/pmerge")
 ```
 ## Introduction
 Merging p-values from different sources in multiple hypothesis testing has been a long-standing issue in many scientific investigation procedures. Many classical methods are designed for combining p-values with cerntain dependence assumption (e.g., independence). However, the validity of the test (in the sense that the probability of making a Type-I error is below the significance level) cannot be guaranteed if the dependence assumption of p-values is not satisfied. Let's take the classic Fisher's method for independent p-values as an example. P-values are obtained from one-sided normal tests and their test statistcs jointly follow a equicorrelated Gaussian normal distribution.
-| ![\rho](https://latex.codecogs.com/svg.latex?\Large&space;\rho)         |     0     |     0.1     |     0.2     |     0.3     |     0.4     |     0.5     |
-| Probability of making a Type-one error                                  |     0     |     0.1     |     0.2     |     0.3     |     0.4     |     0.5     | 
+Attempt | #1 | #2 | #3 | #4 | #5 | #6 | #7 | #8 | #9 | #10 | #11
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
+Seconds | 301 | 283 | 290 | 286 | 289 | 285 | 287 | 287 | 272 | 276 | 269
 
 
 | ![\rho](https://latex.codecogs.com/svg.latex?\Large&space;\rho)         | Probability of making a Type-one error           |
