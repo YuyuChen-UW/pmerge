@@ -3,6 +3,7 @@
 
 ### Table of Contents
 **[Installation](#installation)**<br>
+**[Introduction](#introduction)**<br>
 **[Methods to merge p-values](#Methods-to-merge-p-values)**<br>
 **[Usage and examples](#usage-and-examples)**<br>
 **[References](#references)**<br>
@@ -12,6 +13,8 @@ Install this package from Github with
 #install.packages("devtools")
 devtools::install_github("YuyuChen-UW/pmerge")
 ```
+## Introduction
+
 ## Methods to merge p-values
 This package contains the following functions/methods to merge p-values:
 1. The Generalized Mean Merging Function (`pmean`): 
