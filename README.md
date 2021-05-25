@@ -26,15 +26,32 @@ This package contains the following functions/methods to merge p-values:
 5. The Cauchy Merging Function (`pCauchy`): 
    - The Cauchy combination methods for independent p-values (Liu and Xie 2020).
    - The Cauchy combination methods for arbitrarily dependent p-values (Chen et al. 2020).
-## Usage
-- The functions `pmean`, `porder`, `pharmonic` and `pSimes` return the merged p-value, e.g,
+## Usage and examples
+- The functions `pmean`, `porder`, `pharmonic` and `pSimes` return the merged p-value.
+- The function `pCauchy` returns the details of the hypothesis test including the test statistic and the threshold (reject if the test statistic is smaller than the threshold).
+- Examples:
 ```
 library("pmerge")
 # Generate 1000 p-values
 P <- runif(1000)
 # Merge p-values using the harmonic mean method for arbitrarily dependent p-values 
+pmean(p,-2,dependence="A", censor = TRUE)
+pmean(p,-2,dependence="I")
+
+porder(p,k=2)
+
+
+pSimes(p,method="H")
+pSimes(p,method="S")
+pSimes(p,method="G")
+
+pharmonic(p,method="H1")
+pharmonic(p,method="H2")
+pharmonic(p,method="H3")
+
+pCauchy(p, method="A",epi=0.1)
+pCauchy(p, method="I",epi=0.1)
 ```
-- The function `pCauchy` returns the details of the hypothesis test including the test statistic and the threshold (reject if the test statistic is smaller than the threshold).
 
 
 ## References
