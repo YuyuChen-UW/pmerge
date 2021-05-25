@@ -14,15 +14,15 @@ Install this package from Github with
 devtools::install_github("YuyuChen-UW/pmerge")
 ```
 ## Introduction
-Merging p-values from different sources in multiple hypothesis testing has been a long-standing issue in scientific investigation procedures. Many classic methods are designed for combining p-values with cerntain dependence assumption (e.g., independence). However, the validity of the test (in the sense that the probability of making a Type-I error is below the significance level) cannot be guaranteed if the dependence assumption of p-values is not satisfied. 
+Merging p-values from different sources in multiple hypothesis testing has been a long-standing issue in scientific investigation procedures. Many classic methods are designed for combining p-values with a specific dependence assumption (e.g., independence). However, the validity of the test (in the sense that the probability of making a Type-I error is below the significance level) cannot be guaranteed if the dependence assumption of p-values is not satisfied. 
 
-Let's take the classic Fisher's method for independent p-values as an example. Thirty p-values are calculated under the null hypothesis and they are obtained from one-sided Z-tests whose test statistics jointly follow a equicorrelated Gaussian distribution. Below is a table containing the probabilities of making a Type-I error with **significance level 0.1** for different correlation coefficients. It is clear that if the dependence assumption (independence) is not satisfied, Fisher's method becomes invalid (in this example).
+Let's take the classic Fisher's method for independent p-values as an example. Thirty p-values are calculated under the null hypothesis, and they are obtained from one-sided Z-tests whose test statistics jointly follow an equicorrelated Gaussian distribution. Below is a table containing the probabilities of making a Type-I error with **significance level 0.1** for different correlation coefficients. It is clear that if the dependence assumption (independence) is not satisfied, Fisher's method becomes invalid (in this example).
 Correlation Coefficient | 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 
 --- | --- | --- | --- |--- |--- |--- 
 Probability of making a Type-one error | 0.09933 | 0.22107 | 0.25782 | 0.27476 | 0.28397 | 0.28893
 Is the test valid? | Yes | No | No | No | No | No
 
-Therefore, the dependence structure of p-values plays an important role on the validity of multiple hypothesis test. However, the inference or verification of the dependence assumption is extremely difficult based on limited data of p-values. To solve this issue, methods for arbitrarily dependent p-values are developed. Those methods are always valid regardless of the dependence structure of p-values. Following the setup of the previous example, we present below the probabilities of making a Type-I error by using Fisher's method for arbitrarily dependent p-values.
+Therefore, the dependence structure of p-values plays a vital role on the validity of multiple hypothesis test. However, the inference or verification of the dependence assumption is challenging based on limited data of p-values. To solve this issue, methods for arbitrarily dependent p-values are developed. Those methods are always valid regardless of the dependence structure of p-values. Following the setup of the previous example, we present below the probabilities of making a Type-I error by using Fisher's method for arbitrarily dependent p-values.
 Correlation Coefficient | 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 
 --- | --- | --- | --- |--- |--- |--- 
 Probability of making a Type-one error | 0.00000 | 0.00000 | 0.00026 | 0.00174 | 0.00511 | 0.00951
