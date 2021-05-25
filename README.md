@@ -1,10 +1,11 @@
 # pmerge R package
 
 This package contains several functions/methods to merge p-values that are either independent or arbitrarily dependent from multiple hypothesis testing.
-## Table of Contents  
-[Installation](#Installation) 
-
-[References](#References) 
+### Table of Contents
+**[Installation](#installation)**<br>
+**[Methods to merge p-values](#Methods-to-merge-p-values)**<br>
+**[Usage and examples](#usage-and-examples)**<br>
+**[References](#references)**<br>
 ## Installation
 Install this package from Github with 
 ```
