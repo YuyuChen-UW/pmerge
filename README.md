@@ -17,7 +17,35 @@ devtools::install_github("YuyuChen-UW/pmerge")
 Merging p-values from different sources in multiple hypothesis testing has been a long-standing issue in many scientific investigation procedures. Many classical methods are designed for combining p-values with cerntain dependence assumption (e.g., independence). However, the validity of the test (in the sense that the probability of making a Type-I error is below the significance level) cannot be guaranteed if the dependence assumption of p-values is not satisfied. Let's take the classic Fisher's method for independent p-values as an example. 30 p-values are obtained from one-sided normal tests and their test statistcs jointly follow a equicorrelated Gaussian distribution. Below is a table of the probabilities of making a Type-I error. 
 Correlation Coefficient | 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 
 --- | --- | --- | --- |--- |--- |--- 
-Probability of making a Type-one error | 0.09933 | 0.22107 | 0.25782 | 0.27476 | 0.28397 | 0.28893 
+Probability of making a Type-one error | 0.09933 | 0.22107 | 0.25782 | 0.27476 | 0.28397 | 0.28893
+The code for the above example:
+```r
+#install.packages("MASS")
+library(MASS,pmerge)
+
+# Number of p-values
+K = 30
+# Simulate N sets of p-values
+N = 100000
+rho = 0 # correlation coefficient
+mu = rep(0, K)
+Sigma = matrix(data = rep(rho, K*K), nrow = K, ncol = K)
+diag(Sigma) = 1
+
+set.seed(123456)
+test.stat = mvrnorm(n = N, mu = mu, Sigma = Sigma)
+P = apply(test.stat, MARGIN = 1, FUN = pnorm)
+# Probability of making Type-I error
+alpha = 0.1
+h = c()
+
+for (i in 1 : N){
+  h[i] = pmean(p = P[,i], dependence = "I")
+}
+
+prob = length(h[h<alpha])/length(h)
+prob
+```
 
 
 
