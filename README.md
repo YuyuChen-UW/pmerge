@@ -14,7 +14,7 @@ Install this package from Github with
 devtools::install_github("YuyuChen-UW/pmerge")
 ```
 ## Introduction
-Merging p-values from different sources in multiple hypothesis testing has been a long-standing issue in many scientific investigation procedures. Many classical methods are designed for combining p-values with cerntain dependence assumption (e.g., independence). However, the validity of the test (in the sense that the probability of make a Type-I error is below the significance level) cannot be guaranteed if the dependence assumption of p-values is not satisfied. Let's take the classic Fish's method for independent p-values as an example. P-values are obtained from one-sided normal tests and their test statistcs jointly follow a equicorrelated Gaussian normal distribution.
+Merging p-values from different sources in multiple hypothesis testing has been a long-standing issue in many scientific investigation procedures. Many classical methods are designed for combining p-values with cerntain dependence assumption (e.g., independence). However, the validity of the test (in the sense that the probability of making a Type-I error is below the significance level) cannot be guaranteed if the dependence assumption of p-values is not satisfied. Let's take the classic Fish's method for independent p-values as an example. P-values are obtained from one-sided normal tests and their test statistcs jointly follow a equicorrelated Gaussian normal distribution.
 
 ## Methods
 This package contains the following functions/methods to merge p-values:
