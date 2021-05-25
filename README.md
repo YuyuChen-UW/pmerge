@@ -34,22 +34,32 @@ This package contains the following functions/methods to merge p-values:
 library("pmerge")
 # Generate 1000 p-values
 P <- runif(1000)
-# Merge p-values using the harmonic mean method for arbitrarily dependent p-values 
+
+# The generalized mean method for arbitrarily dependent p-values
 pmean(p,-2,dependence="A", censor = TRUE)
+# The generalized mean method for independent p-values
 pmean(p,-2,dependence="I")
 
+# The order statistic method for arbitrarily dependent p-values
 porder(p,k=2)
 
-
+# The Hommel method for arbitrarily dependent p-values
 pSimes(p,method="H")
+# The Simes method for independent p-values
 pSimes(p,method="S")
+# The grid harmonic method for arbitrarily dependent p-values
 pSimes(p,method="G")
 
+# The harmonic mean method for arbitrarily dependent p-values
 pharmonic(p,method="H1")
+# The harmonic* merging method for arbitrarily dependent p-values
 pharmonic(p,method="H2")
+# The harmonic mean method for independent p-values
 pharmonic(p,method="H3")
 
+# The Cauchy combination method for arbitrarily dependent p-values
 pCauchy(p, method="A",epi=0.1)
+# The Cauchy combination method for independent p-values
 pCauchy(p, method="I",epi=0.1)
 ```
 
