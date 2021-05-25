@@ -13,21 +13,21 @@ library("pmerge")
 ## Methods to merge p-values
 This package contains the following functions/methods to merge p-values:
 1. The Generalized Mean Merging Function (`pmean`): 
-   - the generalized mean methods for independent p-values (Chen et al. 2020).
-   - the generalized mean methods for arbitrarily dependent p-values (Vovk and Wang (2020) and Vovk et al. (2020)).
+   - The generalized mean methods for independent p-values (Chen et al. 2020).
+   - The generalized mean methods for arbitrarily dependent p-values (Vovk and Wang (2020) and Vovk et al. (2020)).
 2. The Order Statistics Merging Function (`porder`): 
-   - the order statistics merging method (Vovk et al. 2020) for arbitrarily dependent p-values.
+   - The order statistics merging method for arbitrarily dependent p-values (Vovk et al. 2020).
 3. The Harmonic Mean Merging Function (`pharmonic`): 
-   - the harmonic mean method (Wilson 2019) for independent p-values.
-   - the harmonic mean method (Vovk and Wang 2020) for arbitrarily dependent p-values.
-   - the harmonic* merging method (Vovk et al. 2020) for arbitrarily dependent p-values.
+   - The harmonic mean method for independent p-values (Wilson 2019).
+   - The harmonic mean method for arbitrarily dependent p-values (Vovk and Wang 2020).
+   - The harmonic* merging method for arbitrarily dependent p-values (Vovk et al. 2020).
 4. The Simes Merging Function (`pSimes`): 
-   - the Simes method (Simes 1986) for independent p-values.
-   - the Hommel method (Hommel 1983) for arbitrarily dependent p-values.
-   - the grid harmonic merging method (Vovk et al. 2020) for arbitrarily dependent p-values.
+   - The Simes method for independent p-values (Simes 1986).
+   - The Hommel method for arbitrarily dependent p-values (Hommel 1983).
+   - The grid harmonic merging method for arbitrarily dependent p-values (Vovk et al. 2020).
 5. The Cauchy Merging Function (`pCauchy`): 
-   - the Cauchy combination methods for independent p-values (Liu and Xie 2020).
-   - the Cauchy combination methods for arbitrarily dependent p-values (Chen et al. 2020).
+   - The Cauchy combination methods for independent p-values (Liu and Xie 2020).
+   - The Cauchy combination methods for arbitrarily dependent p-values (Chen et al. 2020).
 ## References
 Chen Y, Liu P, Tan KS, and Wang R (2020). “Trade-off between validity and efficiency of merging p-values under arbitrary dependence.” arXiv preprint arXiv:2007.12366.
 
