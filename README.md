@@ -31,9 +31,9 @@ This package contains the following functions/methods to merge p-values:
 ## Usage
 - The functions `pmean`, `porder`, `pharmonic` and `pSimes` return the merged p-value, e.g.,
 ``
-# Generate 1000 p-values
+#Generate 1000 p-values
 P <- runif(1000)
-# Merge p-values using the harmonic mean method for arbitrarily dependent p-values 
+#Merge p-values using the harmonic mean method for arbitrarily dependent p-values 
 ``
 - The function `pCauchy` returns the details of the hypothesis test including the test statistic and the threshold (reject if the test statistic is smaller than the threshold).
 ## References
