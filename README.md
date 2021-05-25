@@ -3,7 +3,13 @@
 This package contains several functions to merge p-values that are either independent or arbitrarily dependent from multiple hypothesis testing.
 
 ## Installation
+Install this package from Github with 
+```
+#install.packages("devtools")
+devtools::install_github("YuyuChen-UW/pmerge")
+library("pmerge")
 
+```
 ## Methods to merge p-values
 This package contains the following functions/methods to merge p-values:
 * The Generalized Mean Merging Function (pmean): It contains the generalized mean methods for independent p-values (Chen et al. 2020) and arbitrarily dependent p-values (Vovk and Wang (2020) and Vovk et al. (2020)).
