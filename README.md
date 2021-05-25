@@ -24,14 +24,14 @@ This package contains the following functions/methods to merge p-values:
    - The harmonic mean method for arbitrarily dependent p-values (Vovk and Wang 2020).
    - The harmonic* merging method for arbitrarily dependent p-values (Vovk et al. 2020).
 4. The Simes Merging Function (`pSimes`): 
-   - The Simes method for independent p-values (Simes 1986).
    - The Hommel method for arbitrarily dependent p-values (Hommel 1983).
+   - The Simes method for independent p-values (Simes 1986).
    - The grid harmonic merging method for arbitrarily dependent p-values (Vovk et al. 2020).
 5. The Cauchy Merging Function (`pCauchy`): 
    - The Cauchy combination methods for independent p-values (Liu and Xie 2020).
    - The Cauchy combination methods for arbitrarily dependent p-values (Chen et al. 2020).
 ## Usage and examples
-- The functions `pmean`, `porder`, `pharmonic` and `pSimes` return the merged p-value.
+- The functions `pmean`, `porder`, `pharmonic` and `pSimes` return the merged p-value (reject if the merged p-value is smaller than the significance level).
 - The function `pCauchy` returns the details of the hypothesis test including the test statistic and the threshold (reject if the test statistic is smaller than the threshold).
 - Examples:
 ```r
@@ -39,32 +39,32 @@ library("pmerge")
 # Generate 1000 p-values
 P <- runif(1000)
 
-# The generalized mean method for arbitrarily dependent p-values
-pmean(p,-2,dependence="A")
-# The generalized mean method for independent p-values
-pmean(p,-2,dependence="I")
+# The generalized mean method for arbitrarily dependent p-values with exponent being 0
+pmean(p = P, r = 0, dependence = "A")
+# The generalized mean method for independent p-values with exponent being 0
+pmean(p = P, r = 0, dependence = "I")
 
 # The order statistic method for arbitrarily dependent p-values
-porder(p,k=2)
+porder(p = P, k=1)
 
 # The Hommel method for arbitrarily dependent p-values
-pSimes(p,method="H")
+pSimes(p = P, method = "H")
 # The Simes method for independent p-values
-pSimes(p,method="S")
+pSimes(p = P, method = "S")
 # The grid harmonic method for arbitrarily dependent p-values
-pSimes(p,method="G")
+pSimes(p = P, method = "G")
 
 # The harmonic mean method for arbitrarily dependent p-values
-pharmonic(p,method="H1")
+pharmonic(p = P, method = "H1")
 # The harmonic* merging method for arbitrarily dependent p-values
-pharmonic(p,method="H2")
+pharmonic(p = P, method = "H2")
 # The harmonic mean method for independent p-values
-pharmonic(p,method="H3")
+pharmonic(p = P, method = "H3")
 
 # The Cauchy combination method for arbitrarily dependent p-values with significance level 0.1
-pCauchy(p, method="A",epi=0.1)
+pCauchy(p = P, method = "A",epi = 0.1)
 # The Cauchy combination method for independent p-values with significance level 0.1
-pCauchy(p, method="I",epi=0.1)
+pCauchy(p = P, method = "I",epi = 0.1)
 ```
 
 
