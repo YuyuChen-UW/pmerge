@@ -3,7 +3,7 @@
 This package contains several functions/methods to merge p-values that are either independent or arbitrarily dependent from multiple hypothesis testing.
 ##### Table of Contents  
 [Headers](#headers)  
-[Emphasis](#emphasis)  
+[Installation](#installation)  
 ...snip...    
 <a name="headers"/>
 ## Headers
