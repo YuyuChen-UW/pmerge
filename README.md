@@ -29,7 +29,7 @@ Correlation Coefficient | 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5
 Probability of making a Type-one error | 0.00000 | 0.00000 | 0.00026 | 0.00174 | 0.00511 | 0.00951
 Is the test valid? | Yes | Yes | Yes | Yes | Yes | Yes
 
-The code for the above examples:
+The code for each experiment of the above examples:
 ```r
 #install.packages("MASS")
 library(MASS,pmerge)
