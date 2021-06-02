@@ -1,5 +1,5 @@
 # R package pmerge 
-This package contains several functions/methods to merge p-values that are either independent or arbitrarily dependent in multiple hypothesis testing.
+This package contains several functions/methods to merge p-values that are either independent or arbitrarily dependent in multiple hypothesis testing. The package is developed by [Yuyu Chen](https://yuyuchen-uw.github.io/) and [Ruodu Wang](http://sas.uwaterloo.ca/~wang/).
 
 
 ### Table of Contents
