@@ -93,7 +93,7 @@ pmean(p = P, r = 0, dependence = "A")
 # The generalized mean method for independent p-values with exponent being 0
 pmean(p = P, r = 0, dependence = "I")
 
-# The order statistic method for arbitrarily dependent p-values
+# The order statistic method for arbitrarily dependent p-values using the first order statistic
 porder(p = P, k=1)
 
 # The Hommel method for arbitrarily dependent p-values
