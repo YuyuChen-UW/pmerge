@@ -23,7 +23,7 @@ Correlation Coefficient | 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5
 Probability of making a Type-one error | 0.09933 | 0.22107 | 0.25782 | 0.27476 | 0.28397 | 0.28893
 Is the test valid? | Yes | No | No | No | No | No
 
-Therefore, the dependence structure of p-values plays a vital role on the validity of multiple hypothesis test. However, the inference or verification of the dependence assumption is challenging based on limited data of p-values. To solve this issue, **methods for arbitrarily dependent p-values**, such as the classic Bonferroni's method, are developed. Those methods are always valid regardless of the dependence structure of p-values. Following the setup of the previous example, we present below the probabilities of making a Type-I error by using Fisher's method for arbitrarily dependent p-values.
+Therefore, the dependence structure of p-values plays a vital role on the validity of multiple hypothesis test. However, the inference or verification of the dependence assumption is challenging based on limited data of p-values. To solve this issue, **methods for arbitrarily dependent p-values**, such as the classic Bonferroni's method, are developed. Those methods are always valid regardless of the dependence structure of p-values. Following the setup of the previous example, we present below the probabilities of making a Type-I error by using Fisher's method for arbitrarily dependent p-values (the averaging method).
 Correlation Coefficient | 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 
 --- | --- | --- | --- |--- |--- |--- 
 Probability of making a Type-one error | 0.00000 | 0.00000 | 0.00026 | 0.00174 | 0.00511 | 0.00951
