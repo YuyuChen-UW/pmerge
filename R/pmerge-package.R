@@ -16,7 +16,7 @@
 #' \item The Order Statistics Merging Function (\code{\link{porder}}): It contains the order statistics merging method \insertCite{VWW}{pmerge} for arbitrarily dependent p-values.
 #' \item The Harmonic Mean Merging Function (\code{\link{pharmonic}}): It contains the harmonic mean method \insertCite{W}{pmerge} for independent p-values, the harmonic mean method \insertCite{VW}{pmerge} and the harmonic* merging method \insertCite{VWW}{pmerge} for arbitrarily dependent p-values.
 #' \item The Simes Merging Function (\code{\link{pSimes}}): It contains the Simes method \insertCite{S}{pmerge} for independent p-values, the Hommel method \insertCite{H}{pmerge} and the grid harmonic merging method \insertCite{VWW}{pmerge} for arbitrarily dependent p-values.
-#' \item The Cauchy Merging Function (\code{\link{pCauchy}}):  It contains the Cauchy combination method for independent p-values \insertCite{L}{pmerge} and arbitrarily dependent p-values \insertCite{C}{pmerge}.
+#' \item The Cauchy Merging Function (\code{\link{pCauchy}}):  It contains the Cauchy combination methods for independent p-values \insertCite{L}{pmerge} and arbitrarily dependent p-values \insertCite{C}{pmerge}.
 #' }
 #' }
 #' @references

@@ -11,3 +11,4 @@ LazyData: true
 Imports: Rdpack, stabledist, stats
 RdMacros: Rdpack
 RoxygenNote: 7.1.1
+
