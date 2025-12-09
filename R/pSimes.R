@@ -63,7 +63,17 @@ pSimes <- function(p, method ="H", censor = TRUE, lower=10^(-10)){
   } else if (method == "S"){
     pp = min((K/c(1:K))*sort(p))
   } else if (method == "G"){
-    pp=uniroot(f=gh,lower=lower,upper=sum(1/c(1:K))*min((K/c(1:K))*sort(p),1),p=p)$root
+    # In the case of a p that is F=G <=>  Hk* = Hk and method = "G"
+    # This case gives an error since gh(upper) < 0 hence same sign as gh(lower)
+    # But in the paper of vovk et al. admissible it states:
+    # "domination is strict if, in addition, F(p) < G(p) for at least one p"
+       
+    if (gh(epi = sum(1/c(1:K)) * min((K/c(1:K)) * sort(p), 1),p = p)<=0|gh(epi = lower,p = p)>0) {
+      #message("Returning Hk instead of Hk*")
+      pp = sum(1/c(1:K)) * min((K/c(1:K)) * sort(p), 1) # Hk
+    }else{ # Hk* < Hk strictly smaller
+      pp = uniroot(f = gh, lower = lower, upper = sum(1/c(1:K)) * min((K/c(1:K)) * sort(p), 1), p = p)$root #Hk*
+    }
   }
   return(min(pp,1))
 }
